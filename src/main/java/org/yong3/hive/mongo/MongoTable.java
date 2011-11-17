@@ -46,7 +46,7 @@ public class MongoTable {
 			qFields.put(field, 1);
 		}
 
-		return this.collection.find(qFields);
+		return this.collection.find(new BasicDBObject(), qFields);
 	}
 
 }

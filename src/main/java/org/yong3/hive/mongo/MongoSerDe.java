@@ -16,6 +16,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.StructField;
 import org.apache.hadoop.hive.serde2.objectinspector.StructObjectInspector;
+import org.apache.hadoop.hive.serde2.objectinspector.primitive.AbstractPrimitiveObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;
 import org.apache.hadoop.io.MapWritable;
@@ -35,9 +36,6 @@ public class MongoSerDe implements SerDe {
 	@Override
 	public void initialize(final Configuration conf, final Properties tbl)
 			throws SerDeException {
-
-		conf.set("test.key", "just for test");
-
 		final String columnString = tbl
 				.getProperty(ConfigurationUtil.COLUMN_MAPPING);
 		if (StringUtils.isBlank(columnString)) {
@@ -160,9 +158,9 @@ public class MongoSerDe implements SerDe {
 						fields.get(c));
 				final ObjectInspector fieldOI = fields.get(c)
 						.getFieldObjectInspector();
-				final StringObjectInspector fieldStringOI = (StringObjectInspector) fieldOI;
-				Writable value = fieldStringOI
-						.getPrimitiveWritableObject(field);
+				final AbstractPrimitiveObjectInspector fieldStringOI = (AbstractPrimitiveObjectInspector) fieldOI;
+				Writable value = (Writable)fieldStringOI.getPrimitiveWritableObject(field);
+						//.getPrimitiveWritableObject(field);
 				if (value == null) {
 					value = NullWritable.get();
 				}

@@ -31,8 +31,8 @@ public class MongoWriter implements RecordWriter {
 		MapWritable map = (MapWritable) w;
 		BasicDBObject dbo = new BasicDBObject();
 		for (final Map.Entry<Writable, Writable> entry : map.entrySet()) {
-			// System.err.println("Write: key=" + entry.getKey().toString() +
-			// ", val=" + entry.getValue().toString());
+			 System.err.println("Write: key=" + entry.getKey().toString() +
+			 ", val=" + entry.getValue().toString());
 			String key = entry.getKey().toString();
 			if ("id".equals(key))
 				key = "_id";

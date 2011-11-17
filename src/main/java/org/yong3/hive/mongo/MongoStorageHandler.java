@@ -20,12 +20,11 @@ public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
 	
 	public MongoStorageHandler(){
-		
 	}
 
 	@Override
 	public void configureTableJobProperties(TableDesc tableDesc,
-			Map<String, String> jobProperties) {	
+			Map<String, String> jobProperties) {
 		Properties properties = tableDesc.getProperties();
 		
 	    copyGDataProperties(properties, jobProperties);
