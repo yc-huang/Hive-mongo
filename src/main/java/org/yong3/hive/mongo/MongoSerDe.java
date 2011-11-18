@@ -151,20 +151,20 @@ public class MongoSerDe implements SerDe {
 					"Required %d columns, received %d.", columnNames.size(),
 					fields.size()));
 		}
-		System.err.println("serial obj:" + obj);
+		
 		cachedWritable.clear();
 		for (int c = 0; c < fieldCount; c++) {
 			StructField structField = fields.get(c);
 			if (structField != null) {
 				final Object field = structInspector.getStructFieldData(obj,
 						fields.get(c));
-				System.err.println("serial field:" + field);
+				
 				final ObjectInspector fieldOI = fields.get(c)
 						.getFieldObjectInspector();
+				//TODO:currently only support hive primitive type
 				final AbstractPrimitiveObjectInspector fieldStringOI = (AbstractPrimitiveObjectInspector) fieldOI;
 				Writable value = (Writable)fieldStringOI.getPrimitiveWritableObject(field);
-						//.getPrimitiveWritableObject(field);
-				System.err.println("serial field value:" + value);
+				
 				if (value == null) {
 					if(PrimitiveCategory.STRING.equals(fieldStringOI.getPrimitiveCategory())){
 						//value = NullWritable.get();	
