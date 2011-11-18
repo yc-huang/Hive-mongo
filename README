@@ -1,9 +1,11 @@
 This is a quick&dirty implementation of a MongoDB storage handler for Apache HIVE.
 
-CAUSIONS:
+CAUSION:
 1. currently only support Hive primitive types: string, int, smallint....
 2. Whitespace should not be used in between entries in the "mongo.column.mapping" string, since these will be interperted as part of the column name, which is not what you want.
 3. field with name "id" in hive table will be mapped to "_id" field (Object Id) in MongoDB collections; so if you want "insert overwrite" feature, you must have a field named "id" and which is the "primary key".
+
+Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(https://github.com/balshor/gdata-storagehandler) and HyerTable Hive extension(http://code.google.com/p/hypertable/wiki/HiveExtension), thanks for the help.
 
 Sample Usage:
 
