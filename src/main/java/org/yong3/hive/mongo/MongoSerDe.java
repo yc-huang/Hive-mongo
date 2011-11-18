@@ -16,9 +16,11 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.StructField;
 import org.apache.hadoop.hive.serde2.objectinspector.StructObjectInspector;
+import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.AbstractPrimitiveObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -149,20 +151,28 @@ public class MongoSerDe implements SerDe {
 					"Required %d columns, received %d.", columnNames.size(),
 					fields.size()));
 		}
-
+		System.err.println("serial obj:" + obj);
 		cachedWritable.clear();
 		for (int c = 0; c < fieldCount; c++) {
 			StructField structField = fields.get(c);
 			if (structField != null) {
 				final Object field = structInspector.getStructFieldData(obj,
 						fields.get(c));
+				System.err.println("serial field:" + field);
 				final ObjectInspector fieldOI = fields.get(c)
 						.getFieldObjectInspector();
 				final AbstractPrimitiveObjectInspector fieldStringOI = (AbstractPrimitiveObjectInspector) fieldOI;
 				Writable value = (Writable)fieldStringOI.getPrimitiveWritableObject(field);
 						//.getPrimitiveWritableObject(field);
+				System.err.println("serial field value:" + value);
 				if (value == null) {
-					value = NullWritable.get();
+					if(PrimitiveCategory.STRING.equals(fieldStringOI.getPrimitiveCategory())){
+						//value = NullWritable.get();	
+						value = new Text("");
+					}else{
+						//TODO: now all treat as number
+						value = new IntWritable(0);
+					}
 				}
 				cachedWritable.put(new Text(columnNames.get(c)), value);
 			}

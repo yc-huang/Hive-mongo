@@ -9,7 +9,7 @@ Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(http
 
 Sample Usage:
 
-> $HIVE_HOME/bin/hive --auxpath /home/yc.huang/mongo-java-driver-2.6.3.jar,/home/yc.huang/guava-r06.jar,/home/yc.huang/hive-mongo-handler.jar
+> $HIVE_HOME/bin/hive --auxpath /home/yc.huang/mongo-java-driver-2.6.3.jar,/home/yc.huang/guava-r06.jar,/home/yc.huang/hive-mongo-0.0.1-SNAPSHOT.jar
 
 hive> create external table mongo_users(id int, name string, age int) stored by "org.yong3.hive.mongo.MongoStorageHandler" with serdeproperties ( "mongo.column.mapping" = "id,name,age" ) tblproperties ( "mongo.host" = "192.168.0.5", "mongo.port" = "11211", "mongo.db" = "test", "mongo.collection" = "users" );
 OK
