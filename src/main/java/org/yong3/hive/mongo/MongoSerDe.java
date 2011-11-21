@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.serde.Constants;
 import org.apache.hadoop.hive.serde2.SerDe;
 import org.apache.hadoop.hive.serde2.SerDeException;
-//import org.apache.hadoop.hive.serde2.SerDeStats;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.StructField;
@@ -19,7 +17,6 @@ import org.apache.hadoop.hive.serde2.objectinspector.StructObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.AbstractPrimitiveObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
-import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -27,6 +24,14 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
 public class MongoSerDe implements SerDe {
+	static final String HIVE_TYPE_DOUBLE = "double";
+	static final String HIVE_TYPE_FLOAT = "float";
+	static final String HIVE_TYPE_BOOLEAN = "boolean";
+	static final String HIVE_TYPE_BIGINT = "bigint";
+	static final String HIVE_TYPE_TINYINT = "tinyint";
+	static final String HIVE_TYPE_SMALLINT = "smallint";
+	static final String HIVE_TYPE_INT = "int";
+
 	private final MapWritable cachedWritable = new MapWritable();
 
 	private int fieldCount;
@@ -58,25 +63,25 @@ public class MongoSerDe implements SerDe {
 		final List<ObjectInspector> fieldOIs = new ArrayList<ObjectInspector>(
 				columnNamesArray.length);
 		for (int i = 0; i < columnNamesArray.length; i++) {
-			if ("int".equalsIgnoreCase(columnTypesArray[i])) {
+			if (HIVE_TYPE_INT.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaIntObjectInspector);
-			} else if ("smallint".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_SMALLINT.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaShortObjectInspector);
-			} else if ("tinyint".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_TINYINT.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaByteObjectInspector);
-			} else if ("bigint".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_BIGINT.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaLongObjectInspector);
-			} else if ("boolean".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_BOOLEAN.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaBooleanObjectInspector);
-			} else if ("float".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_FLOAT.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaFloatObjectInspector);
-			} else if ("double".equalsIgnoreCase(columnTypesArray[i])) {
+			} else if (MongoSerDe.HIVE_TYPE_DOUBLE.equalsIgnoreCase(columnTypesArray[i])) {
 				fieldOIs
 						.add(PrimitiveObjectInspectorFactory.javaDoubleObjectInspector);
 			} else {
@@ -105,19 +110,21 @@ public class MongoSerDe implements SerDe {
 			t.set(columnNames.get(i));
 			final Writable value = input.get(t);
 			if (value != null && !NullWritable.get().equals(value)) {
-				if ("int".equalsIgnoreCase(columnTypesArray[i])) {
-					row.add(Integer.valueOf(value.toString()));
-				} else if ("smallint".equalsIgnoreCase(columnTypesArray[i])) {
-					row.add(Short.valueOf(value.toString()));
-				} else if ("tinyint".equalsIgnoreCase(columnTypesArray[i])) {
-					row.add(Byte.valueOf(value.toString()));
-				} else if ("bigint".equalsIgnoreCase(columnTypesArray[i])) {
+				//parse as double to avoid NumberFormatException...
+				//TODO:need more test,especially for type 'bigint'
+				if (HIVE_TYPE_INT.equalsIgnoreCase(columnTypesArray[i])) {
+					row.add(Double.valueOf(value.toString()).intValue());
+				} else if (MongoSerDe.HIVE_TYPE_SMALLINT.equalsIgnoreCase(columnTypesArray[i])) {
+					row.add(Double.valueOf(value.toString()).shortValue());
+				} else if (MongoSerDe.HIVE_TYPE_TINYINT.equalsIgnoreCase(columnTypesArray[i])) {
+					row.add(Double.valueOf(value.toString()).byteValue());
+				} else if (MongoSerDe.HIVE_TYPE_BIGINT.equalsIgnoreCase(columnTypesArray[i])) {
 					row.add(Long.valueOf(value.toString()));
-				} else if ("boolean".equalsIgnoreCase(columnTypesArray[i])) {
+				} else if (MongoSerDe.HIVE_TYPE_BOOLEAN.equalsIgnoreCase(columnTypesArray[i])) {
 					row.add(Boolean.valueOf(value.toString()));
-				} else if ("float".equalsIgnoreCase(columnTypesArray[i])) {
-					row.add(Float.valueOf(value.toString()));
-				} else if ("double".equalsIgnoreCase(columnTypesArray[i])) {
+				} else if (MongoSerDe.HIVE_TYPE_FLOAT.equalsIgnoreCase(columnTypesArray[i])) {
+					row.add(Double.valueOf(value.toString()).floatValue());
+				} else if (MongoSerDe.HIVE_TYPE_DOUBLE.equalsIgnoreCase(columnTypesArray[i])) {
 					row.add(Double.valueOf(value.toString()));
 				} else {
 					row.add(value.toString());
@@ -159,14 +166,14 @@ public class MongoSerDe implements SerDe {
 				final Object field = structInspector.getStructFieldData(obj,
 						fields.get(c));
 				
-				final ObjectInspector fieldOI = fields.get(c)
-						.getFieldObjectInspector();
 				//TODO:currently only support hive primitive type
-				final AbstractPrimitiveObjectInspector fieldStringOI = (AbstractPrimitiveObjectInspector) fieldOI;
-				Writable value = (Writable)fieldStringOI.getPrimitiveWritableObject(field);
+				final AbstractPrimitiveObjectInspector fieldOI = (AbstractPrimitiveObjectInspector)fields.get(c)
+						.getFieldObjectInspector();
+
+				Writable value = (Writable)fieldOI.getPrimitiveWritableObject(field);
 				
 				if (value == null) {
-					if(PrimitiveCategory.STRING.equals(fieldStringOI.getPrimitiveCategory())){
+					if(PrimitiveCategory.STRING.equals(fieldOI.getPrimitiveCategory())){
 						//value = NullWritable.get();	
 						value = new Text("");
 					}else{

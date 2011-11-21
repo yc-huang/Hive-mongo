@@ -8,7 +8,6 @@ import org.apache.hadoop.mapred.JobConf;
 
 import com.google.common.collect.ImmutableSet;
 
-@SuppressWarnings("deprecation")
 public class ConfigurationUtil {
 	static final String DB_NAME = "mongo.db";
 	static final String COLLECTION_NAME = "mongo.collection";

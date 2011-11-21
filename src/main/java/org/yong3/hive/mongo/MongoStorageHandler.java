@@ -1,5 +1,7 @@
 package org.yong3.hive.mongo;
 
+import static org.yong3.hive.mongo.ConfigurationUtil.copyGDataProperties;
+
 import java.util.Map;
 import java.util.Properties;
 
@@ -13,9 +15,7 @@ import org.apache.hadoop.hive.serde2.SerDe;
 import org.apache.hadoop.mapred.InputFormat;
 import org.apache.hadoop.mapred.OutputFormat;
 
-import static org.yong3.hive.mongo.ConfigurationUtil.copyGDataProperties;
-
-@SuppressWarnings("deprecation")
+@SuppressWarnings("unchecked")
 public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
 	
@@ -40,6 +40,7 @@ public class MongoStorageHandler implements HiveStorageHandler {
 		return new DummyMetaHook();
 	}
 
+
 	@Override
 	public Class<? extends OutputFormat> getOutputFormatClass() {
 		return MongoOutputFormat.class;
@@ -60,7 +61,7 @@ public class MongoStorageHandler implements HiveStorageHandler {
 		this.mConf = conf;
 	}
 
-	class DummyMetaHook implements HiveMetaHook {
+	private static class DummyMetaHook implements HiveMetaHook {
 
 		@Override
 		public void commitCreateTable(Table arg0) throws MetaException {

@@ -16,7 +16,6 @@ import org.apache.hadoop.util.Progressable;
 
 import static org.yong3.hive.mongo.ConfigurationUtil.*;
 
-@SuppressWarnings("deprecation")
 public class MongoOutputFormat implements OutputFormat<NullWritable,Row>,
 HiveOutputFormat<NullWritable, Row>{
 

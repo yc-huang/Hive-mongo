@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.RecordReader;
 
 import com.mongodb.DBCursor;
@@ -71,11 +70,10 @@ public class MongoReader implements RecordReader<LongWritable, MapWritable> {
 		keyHolder.set(pos);
 		for (int i = 0; i < this.readColumns.length; i++) {
 			String key = readColumns[i];
-			String vString = ("id".equals(key)) ? record.get("_id").toString()
-					: record.get(key).toString();
+			Object vObj = ("id".equals(key)) ? record.get("_id")
+					: record.get(key);
 
-			Writable value = new Text(vString);
-			valueHolder.put(new Text(key), value);
+			valueHolder.put(new Text(key), new Text(vObj.toString()));
 		}
 		pos++;
 		return true;
