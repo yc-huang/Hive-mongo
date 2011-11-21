@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapred.RecordReader;
 
 import com.mongodb.DBCursor;
@@ -23,15 +25,15 @@ public class MongoReader implements RecordReader<LongWritable, MapWritable> {
 		this.table = new MongoTable(dbHost, dbPort, dbName, colName);
 		this.split = split;
 		this.readColumns = readColumns;
-		
+
 		this.cursor = table.findAll(readColumns).batchSize(BATCH_SIZE).skip(
 				(int) split.getStart());
 		if (!split.isLastSplit())
 			this.cursor.limit((int) split.getLength());// if it's the last
-														// split,it will read
-														// all records since
-														// $start
-		
+		// split,it will read
+		// all records since
+		// $start
+
 	}
 
 	@Override
@@ -70,10 +72,11 @@ public class MongoReader implements RecordReader<LongWritable, MapWritable> {
 		keyHolder.set(pos);
 		for (int i = 0; i < this.readColumns.length; i++) {
 			String key = readColumns[i];
-			Object vObj = ("id".equals(key)) ? record.get("_id")
-					: record.get(key);
-
-			valueHolder.put(new Text(key), new Text(vObj.toString()));
+			Object vObj = ("id".equals(key)) ? record.get("_id") : record
+					.get(key);
+			Writable value = (vObj == null) ? NullWritable.get() : new Text(
+					vObj.toString());
+			valueHolder.put(new Text(key), value);
 		}
 		pos++;
 		return true;

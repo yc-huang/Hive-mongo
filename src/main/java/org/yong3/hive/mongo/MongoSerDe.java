@@ -174,8 +174,8 @@ public class MongoSerDe implements SerDe {
 				
 				if (value == null) {
 					if(PrimitiveCategory.STRING.equals(fieldOI.getPrimitiveCategory())){
-						//value = NullWritable.get();	
-						value = new Text("");
+						value = NullWritable.get();	
+						//value = new Text("");
 					}else{
 						//TODO: now all treat as number
 						value = new IntWritable(0);

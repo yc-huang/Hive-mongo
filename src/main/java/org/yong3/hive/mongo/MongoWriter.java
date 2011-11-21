@@ -12,6 +12,7 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Writable;
 
 import com.mongodb.BasicDBObject;
@@ -67,6 +68,9 @@ public class MongoWriter implements RecordWriter {
 		} else if (w instanceof DoubleWritable) {
 			// double
 			return ((DoubleWritable) w).get();
+		}else if (w instanceof NullWritable) {
+			//null
+			return null;
 		} else {
 			// treat as string
 			return w.toString();
