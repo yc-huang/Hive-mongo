@@ -1,6 +1,6 @@
 This is a quick&dirty implementation of a MongoDB storage handler for Apache HIVE.
 
-#**CAUSION:**
+##CAUSION:
 
 * currently only support Hive primitive types: string, int, smallint....
 
@@ -10,7 +10,7 @@ This is a quick&dirty implementation of a MongoDB storage handler for Apache HIV
 
 Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(https://github.com/balshor/gdata-storagehandler) and HyperTable Hive extension(http://code.google.com/p/hypertable/wiki/HiveExtension), thanks for the help.
 
-#Sample Usage:
+##Sample Usage:
 
     > $HIVE_HOME/bin/hive --auxpath /home/yc.huang/mongo-java-driver-2.6.3.jar,/home/yc.huang/guava-r06.jar,/home/yc.huang/hive-mongo-0.0.1-SNAPSHOT.jar
 
