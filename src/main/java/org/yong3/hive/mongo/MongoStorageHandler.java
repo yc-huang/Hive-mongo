@@ -1,6 +1,10 @@
 package org.yong3.hive.mongo;
 
-import static org.yong3.hive.mongo.ConfigurationUtil.copyGDataProperties;
+import static org.yong3.hive.mongo.ConfigurationUtil.COLLECTION_NAME;
+import static org.yong3.hive.mongo.ConfigurationUtil.DB_HOST;
+import static org.yong3.hive.mongo.ConfigurationUtil.DB_NAME;
+import static org.yong3.hive.mongo.ConfigurationUtil.DB_PORT;
+import static org.yong3.hive.mongo.ConfigurationUtil.copyMongoProperties;
 
 import java.util.Map;
 import java.util.Properties;
@@ -18,16 +22,15 @@ import org.apache.hadoop.mapred.OutputFormat;
 @SuppressWarnings("unchecked")
 public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
-	
-	public MongoStorageHandler(){
+
+	public MongoStorageHandler() {
 	}
 
 	@Override
 	public void configureTableJobProperties(TableDesc tableDesc,
 			Map<String, String> jobProperties) {
 		Properties properties = tableDesc.getProperties();
-		
-	    copyGDataProperties(properties, jobProperties);
+		copyMongoProperties(properties, jobProperties);
 	}
 
 	@Override
@@ -39,7 +42,6 @@ public class MongoStorageHandler implements HiveStorageHandler {
 	public HiveMetaHook getMetaHook() {
 		return new DummyMetaHook();
 	}
-
 
 	@Override
 	public Class<? extends OutputFormat> getOutputFormatClass() {
@@ -61,43 +63,48 @@ public class MongoStorageHandler implements HiveStorageHandler {
 		this.mConf = conf;
 	}
 
-	private static class DummyMetaHook implements HiveMetaHook {
+	private class DummyMetaHook implements HiveMetaHook {
 
 		@Override
-		public void commitCreateTable(Table arg0) throws MetaException {
-			// TODO Auto-generated method stub
-
+		public void commitCreateTable(Table tbl) throws MetaException {
+			// nothing to do...
 		}
 
 		@Override
-		public void commitDropTable(Table arg0, boolean arg1)
+		public void commitDropTable(Table tbl, boolean deleteData)
 				throws MetaException {
-			// TODO Auto-generated method stub
-
+			if (!deleteData) {
+				// nothing to do...
+			} else {
+				String dbHost = tbl.getParameters().get(DB_HOST);
+				String dbPort = tbl.getParameters().get(DB_PORT);
+				String dbName = tbl.getParameters().get(DB_NAME);
+				String dbCollection = tbl.getParameters().get(COLLECTION_NAME);
+				MongoTable table = new MongoTable(dbHost, dbPort, dbName,
+						dbCollection);
+				table.drop();
+				table.close();
+			}
 		}
 
 		@Override
-		public void preCreateTable(Table arg0) throws MetaException {
-			// TODO Auto-generated method stub
-
+		public void preCreateTable(Table tbl) throws MetaException {
+			// nothing to do...
 		}
 
 		@Override
-		public void preDropTable(Table arg0) throws MetaException {
-			// TODO Auto-generated method stub
-
+		public void preDropTable(Table tbl) throws MetaException {
+			// nothing to do...
 		}
 
 		@Override
-		public void rollbackCreateTable(Table arg0) throws MetaException {
-			// TODO Auto-generated method stub
-
+		public void rollbackCreateTable(Table tbl) throws MetaException {
+			// nothing to do...
 		}
 
 		@Override
-		public void rollbackDropTable(Table arg0) throws MetaException {
-			// TODO Auto-generated method stub
-
+		public void rollbackDropTable(Table tbl) throws MetaException {
+			// nothing to do...
 		}
 
 	}

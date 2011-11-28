@@ -48,5 +48,9 @@ public class MongoTable {
 
 		return this.collection.find(new BasicDBObject(), qFields);
 	}
+	
+	public void drop(){
+		this.collection.drop();
+	}
 
 }
