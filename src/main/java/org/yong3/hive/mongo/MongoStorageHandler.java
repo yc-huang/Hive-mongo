@@ -75,9 +75,9 @@ public class MongoStorageHandler implements HiveStorageHandler {
 		public void commitDropTable(Table tbl, boolean deleteData)
 				throws MetaException {
 			boolean isExternal = MetaStoreUtils.isExternalTable(tbl);
-			if (!deleteData && !isExternal) {
+			if (deleteData && isExternal) {
 				// nothing to do...
-			} else {
+			} else if(deleteData && !isExternal) {
 				String dbHost = tbl.getParameters().get(DB_HOST);
 				String dbPort = tbl.getParameters().get(DB_PORT);
 				String dbName = tbl.getParameters().get(DB_NAME);
