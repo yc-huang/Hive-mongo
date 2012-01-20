@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.HiveMetaHook;
+import org.apache.hadoop.hive.metastore.MetaStoreUtils;
 import org.apache.hadoop.hive.metastore.api.MetaException;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.hadoop.hive.ql.metadata.HiveStorageHandler;
@@ -73,7 +74,8 @@ public class MongoStorageHandler implements HiveStorageHandler {
 		@Override
 		public void commitDropTable(Table tbl, boolean deleteData)
 				throws MetaException {
-			if (!deleteData) {
+			boolean isExternal = MetaStoreUtils.isExternalTable(tbl);
+			if (!deleteData && !isExternal) {
 				// nothing to do...
 			} else {
 				String dbHost = tbl.getParameters().get(DB_HOST);
