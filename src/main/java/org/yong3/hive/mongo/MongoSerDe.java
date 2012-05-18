@@ -54,7 +54,15 @@ public class MongoSerDe implements SerDe {
 		fieldCount = columnNamesArray.length;
 		columnNames = new ArrayList<String>(columnNamesArray.length);
 		columnNames.addAll(Arrays.asList(columnNamesArray));
-
+		
+		String hiveColumnNameProperty = tbl.getProperty(Constants.LIST_COLUMNS);
+		List<String> hiveColumnNameArray = null;
+		if (hiveColumnNameProperty != null && hiveColumnNameProperty.length() > 0) {
+			Arrays.asList(hiveColumnNameProperty.split(","));
+		}else{
+			hiveColumnNameArray =  new ArrayList<String>();
+		}
+		
 		String columnTypeProperty = tbl
 				.getProperty(Constants.LIST_COLUMN_TYPES);
 		// System.err.println("column types:" + columnTypeProperty);
@@ -91,7 +99,7 @@ public class MongoSerDe implements SerDe {
 			}
 		}
 		objectInspector = ObjectInspectorFactory
-				.getStandardStructObjectInspector(columnNames, fieldOIs);
+				.getStandardStructObjectInspector(hiveColumnNameArray, fieldOIs);
 		row = new ArrayList<Object>(columnNamesArray.length);
 	}
 

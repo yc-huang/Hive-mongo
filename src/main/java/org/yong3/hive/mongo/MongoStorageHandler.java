@@ -19,7 +19,6 @@ import org.apache.hadoop.hive.serde2.SerDe;
 import org.apache.hadoop.mapred.InputFormat;
 import org.apache.hadoop.mapred.OutputFormat;
 
-@SuppressWarnings("unchecked")
 public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
 

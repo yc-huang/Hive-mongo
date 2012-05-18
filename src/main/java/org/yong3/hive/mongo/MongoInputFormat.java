@@ -61,6 +61,7 @@ public class MongoInputFormat extends
 		
 	    String filterExprSerialized =
 	        conf.get(TableScanDesc.FILTER_EXPR_CONF_STR);
+	    
 	      if (filterExprSerialized != null){
 	    	  //System.err.println("=======filter expr is " + filterExprSerialized);
 	    	  ExprNodeDesc filterExpr =

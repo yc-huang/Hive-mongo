@@ -38,9 +38,9 @@ public class MongoWriter implements RecordWriter {
 			// System.err.println("Write: key=" + entry.getKey().toString()
 			// + ", val=" + entry.getValue().toString());
 			String key = entry.getKey().toString();
-			if ("id".equals(key)) {
-				key = "_id";
-			}
+//			if ("id".equals(key)) {
+//				key = "_id";
+//			}
 			dbo.put(key, getObjectFromWritable(entry.getValue()));
 		}
 		table.save(dbo);

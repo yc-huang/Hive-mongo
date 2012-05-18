@@ -6,7 +6,7 @@ This is a quick&dirty implementation of a MongoDB storage handler for Apache HIV
 
 * Whitespace should not be used in between entries in the "mongo.column.mapping" string, since these will be interperted as part of the column name, which is not what you want.
 
-* field with name "id" in hive table will be mapped to "_id" field (Object Id) in MongoDB collections; so if you want "insert overwrite" feature, you must have a field named "id" and which is the "primary key".
+* if you want "insert overwrite" feature, you must have a field named be mapped to "_id" field (Object Id in MongoDB collections).
 
 Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(https://github.com/balshor/gdata-storagehandler) and HyperTable Hive extension(http://code.google.com/p/hypertable/wiki/HiveExtension), thanks for the help.
 
@@ -16,7 +16,7 @@ Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(http
 
     
 
-    hive> create external table mongo_users(id int, name string, age int) stored by "org.yong3.hive.mongo.MongoStorageHandler" with serdeproperties ( "mongo.column.mapping" = "id,name,age" ) tblproperties ( "mongo.host" = "192.168.0.5", "mongo.port" = "11211", "mongo.db" = "test", "mongo.collection" = "users" );
+    hive> create external table mongo_users(id int, name string, age int) stored by "org.yong3.hive.mongo.MongoStorageHandler" with serdeproperties ( "mongo.column.mapping" = "_id,name,age" ) tblproperties ( "mongo.host" = "192.168.0.5", "mongo.port" = "11211", "mongo.db" = "test", "mongo.collection" = "users" );
 
     OK
     Time taken: 4.093 seconds
