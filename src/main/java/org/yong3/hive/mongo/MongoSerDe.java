@@ -22,6 +22,7 @@ import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
+import org.apache.log4j.Logger;
 
 public class MongoSerDe implements SerDe {
 	static final String HIVE_TYPE_DOUBLE = "double";
@@ -39,6 +40,8 @@ public class MongoSerDe implements SerDe {
 	private List<String> columnNames;
 	String[] columnTypesArray;
 	private List<Object> row;
+	
+	Logger log = Logger.getLogger(MongoSerDe.class);
 
 	@Override
 	public void initialize(final Configuration conf, final Properties tbl)
@@ -55,16 +58,21 @@ public class MongoSerDe implements SerDe {
 		columnNames = new ArrayList<String>(columnNamesArray.length);
 		columnNames.addAll(Arrays.asList(columnNamesArray));
 		
+		log.debug("column names in mongo collection: " + columnNames);
+		
 		String hiveColumnNameProperty = tbl.getProperty(Constants.LIST_COLUMNS);
 		List<String> hiveColumnNameArray = new ArrayList<String>();
+		
 		if (hiveColumnNameProperty != null && hiveColumnNameProperty.length() > 0) {
-			Arrays.asList(hiveColumnNameProperty.split(","));
+			hiveColumnNameArray = Arrays.asList(hiveColumnNameProperty.split(","));
 		}
+		log.debug("column names in hive table: " + hiveColumnNameArray);
 		
 		String columnTypeProperty = tbl
 				.getProperty(Constants.LIST_COLUMN_TYPES);
 		// System.err.println("column types:" + columnTypeProperty);
 		columnTypesArray = columnTypeProperty.split(":");
+		log.debug("column types in hive table: " + columnTypesArray);
 
 		final List<ObjectInspector> fieldOIs = new ArrayList<ObjectInspector>(
 				columnNamesArray.length);
