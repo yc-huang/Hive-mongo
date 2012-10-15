@@ -12,9 +12,9 @@ Some code are borrowed/referenced from Balshor's Google Spreadsheet Handler(http
 
 ##How to build
 Here's a simple guide on how to build, hope it helps(thanks WalterDalton for providing the information): 
-1. make sure you have java sdk installed (otherwise download and install from http://www.oracle.com/technetwork/java/index.html) , $JAVA_HOME env variable is point to the installed directory and $JAVA_HOME/bin/ is included in $PATH env variable; 
-2. download maven from http://maven.apache.org and install to a directory (let's say $MAVEN_HOME), add $MAVEN_HOME/bin to $PATH 
-3. git clone Hive-Mongo to a directory; launch a cmd shell, cd that directory and execute "mvn package"; if everything is OK, you can find "hive-mongo-0.0.1-SNAPSHOT.jar" in the "target" directory. There also have a jar named "hive-mongo-0.0.1-SNAPSHOT-jar-with-dependencies.jar" which is a combo; with this one you do not need to include mongo-java-driver-2.6.3.jar and guava-r06.jar.
+* 1. make sure you have java sdk installed (otherwise download and install from http://www.oracle.com/technetwork/java/index.html) , $JAVA_HOME env variable is point to the installed directory and $JAVA_HOME/bin/ is included in $PATH env variable; 
+* 2. download maven from http://maven.apache.org and install to a directory (let's say $MAVEN_HOME), add $MAVEN_HOME/bin to $PATH 
+* 3. git clone Hive-Mongo to a directory; launch a cmd shell, cd that directory and execute "mvn package"; if everything is OK, you can find "hive-mongo-0.0.1-SNAPSHOT.jar" in the "target" directory. There also have a jar named "hive-mongo-0.0.1-SNAPSHOT-jar-with-dependencies.jar" which is a combo; with this one you do not need to include mongo-java-driver-2.6.3.jar and guava-r06.jar.
 
 ##Sample Usage:
 
