@@ -56,11 +56,9 @@ public class MongoSerDe implements SerDe {
 		columnNames.addAll(Arrays.asList(columnNamesArray));
 		
 		String hiveColumnNameProperty = tbl.getProperty(Constants.LIST_COLUMNS);
-		List<String> hiveColumnNameArray = null;
+		List<String> hiveColumnNameArray = new ArrayList<String>();
 		if (hiveColumnNameProperty != null && hiveColumnNameProperty.length() > 0) {
 			Arrays.asList(hiveColumnNameProperty.split(","));
-		}else{
-			hiveColumnNameArray =  new ArrayList<String>();
 		}
 		
 		String columnTypeProperty = tbl
