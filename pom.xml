@@ -22,8 +22,46 @@
 						<encoding>utf-8</encoding>
 					</configuration>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
+      <plugins>
+				 <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-dependency-plugin</artifactId>
+           <executions>
+             <execution>
+               <id>copy-dependencies</id>
+               <phase>package</phase>
+               <goals>
+                 <goal>copy-dependencies</goal>
+               </goals>
+             </execution>
+           </executions>
+        </plugin>
+       <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					
+					<!--descriptors>
+            <descriptor>src/assemble/filter.xml</descriptor>
+          </descriptors-->
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-jar-with-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			</plugins>
 	</build>
   	<dependencies>
   		<dependency>
@@ -31,14 +69,14 @@
   			<artifactId>commons-lang</artifactId>
   			<version>2.6</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		<dependency>
   			<groupId>commons-logging</groupId>
   			<artifactId>commons-logging</artifactId>
   			<version>1.1.1</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		<dependency>
   			<groupId>com.google.guava</groupId>
@@ -53,21 +91,21 @@
   			<artifactId>hive-serde</artifactId>
   			<version>0.7.1-SNAPSHOT</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		  		<dependency>
   			<groupId>org.apache.hive</groupId>
   			<artifactId>hive-exec</artifactId>
   			<version>0.7.1-SNAPSHOT</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		  		<dependency>
   			<groupId>org.apache.hive</groupId>
   			<artifactId>hive-metastore</artifactId>
   			<version>0.7.1-SNAPSHOT</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		
   		<dependency>
@@ -82,14 +120,14 @@
   			<artifactId>hadoop-core</artifactId>
   			<version>0.20.205.0</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   		</dependency>
   		<dependency>
   			<groupId>org.apache.hbase</groupId>
   			<artifactId>hbase</artifactId>
   			<version>0.90.3</version>
   			<type>jar</type>
-  			<scope>compile</scope>
+  			<scope>provided</scope>
   			<exclusions>
         <exclusion>
           <groupId>org.apache.thrift</groupId>
@@ -99,4 +137,5 @@
   		</dependency>
   		  		
   	</dependencies>
+
 </project>
