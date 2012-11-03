@@ -83,11 +83,12 @@ public class MongoSplit extends FileSplit implements InputSplit {
 		
 		MongoTable table = new MongoTable(dbHost, dbPort, dbName, colName);
 		long total = table.count();
-		final long splitSize = total / numSplits;
-		MongoSplit[] splits = new MongoSplit[numSplits];
+		int _numSplits = (numSplits < 1 || total <= numSplits) ? 1 : numSplits;
+		final long splitSize = total / _numSplits;
+		MongoSplit[] splits = new MongoSplit[_numSplits];
 		final Path[] tablePaths = FileInputFormat.getInputPaths(conf);
-		for (int i = 0; i < numSplits; i++) {
-			if ((i + 1) == numSplits) {
+		for (int i = 0; i < _numSplits; i++) {
+			if ((i + 1) == _numSplits) {
 		        splits[i] = new MongoSplit(i * splitSize, total, tablePaths[0]);
 		        splits[i].setLastSplit();
 		      } else {
