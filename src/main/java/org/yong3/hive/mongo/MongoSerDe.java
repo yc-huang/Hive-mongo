@@ -64,14 +64,14 @@ public class MongoSerDe implements SerDe {
 		List<String> hiveColumnNameArray = new ArrayList<String>();
 		
 		if (hiveColumnNameProperty != null && hiveColumnNameProperty.length() > 0) {
-			hiveColumnNameArray = Arrays.asList(hiveColumnNameProperty.split(","));
+			hiveColumnNameArray = Arrays.asList(hiveColumnNameProperty.split("[,:;]"));
 		}
 		log.debug("column names in hive table: " + hiveColumnNameArray);
 		
 		String columnTypeProperty = tbl
 				.getProperty(Constants.LIST_COLUMN_TYPES);
 		// System.err.println("column types:" + columnTypeProperty);
-		columnTypesArray = columnTypeProperty.split(":");
+		columnTypesArray = columnTypeProperty.split("[,:;]");
 		log.debug("column types in hive table: " + columnTypesArray);
 
 		final List<ObjectInspector> fieldOIs = new ArrayList<ObjectInspector>(
