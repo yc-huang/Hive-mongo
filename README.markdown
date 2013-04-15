@@ -1,6 +1,6 @@
 This is a quick&dirty implementation of a MongoDB storage handler for Apache HIVE.
 
-##CAUSION:
+##CAUTION:
 
 * currently only support Hive primitive types: string, int, smallint....
 
