@@ -19,7 +19,7 @@ Here's a simple guide on how to build, hope it helps(thanks WalterDalton for pro
 ##Sample Usage:
 
     > $HIVE_HOME/bin/hive --auxpath /home/yc.huang/mongo-java-driver-2.6.3.jar,/home/yc.huang/guava-r06.jar,  
-    /home/yc.huang/hive-mongo-0.0.1-SNAPSHOT.jar
+    /home/yc.huang/hive-mongo-0.0.3-SNAPSHOT.jar
 
     
 
@@ -27,7 +27,7 @@ Here's a simple guide on how to build, hope it helps(thanks WalterDalton for pro
     stored by "org.yong3.hive.mongo.MongoStorageHandler"  
     with serdeproperties ( "mongo.column.mapping" = "_id,name,age" )  
     tblproperties ( "mongo.host" = "192.168.0.5", "mongo.port" = "11211",  
-    "mongo.db" = "test", "mongo.collection" = "users" );
+    "mongo.db" = "test", "mongo.user" = "testUser", "mongo.passwd" = "testPasswd", "mongo.collection" = "users" );
 
     OK
     Time taken: 4.093 seconds
