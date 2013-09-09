@@ -14,9 +14,12 @@ public class ConfigurationUtil {
 	public static final String DB_HOST = "mongo.host";
 	public static final String DB_PORT = "mongo.port";
 	public static final String COLUMN_MAPPING = "mongo.column.mapping";
-
+	
+	public static final String DB_USER = "mongo.user";
+	public static final String DB_PASSWD = "mongo.passwd";
+	
 	public static final Set<String> ALL_PROPERTIES = ImmutableSet.of(DB_NAME,
-			COLLECTION_NAME, DB_HOST, DB_PORT, COLUMN_MAPPING);
+			COLLECTION_NAME, DB_HOST, DB_PORT, COLUMN_MAPPING, DB_USER, DB_PASSWD);
 
 	public final static String getDBName(Configuration conf) {
 		return conf.get(DB_NAME);
@@ -34,6 +37,14 @@ public class ConfigurationUtil {
 		return conf.get(DB_PORT);
 	}
 
+	public final static String getDBUser(Configuration conf) {
+		return conf.get(DB_USER);
+	}
+
+	public final static String getDBPassword(Configuration conf) {
+		return conf.get(DB_PASSWD);
+	}
+	
 	public final static String getColumnMapping(Configuration conf) {
 		return conf.get(COLUMN_MAPPING);
 	}

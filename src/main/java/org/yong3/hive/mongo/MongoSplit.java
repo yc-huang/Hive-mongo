@@ -79,9 +79,9 @@ public class MongoSplit extends FileSplit implements InputSplit {
 	  }
 
 	public static MongoSplit[] getSplits(JobConf conf,
-			String dbHost, String dbPort, String dbName, String colName, int numSplits) {
+			String dbHost, String dbPort, String dbName, String dbUser, String dbPasswd, String colName, int numSplits) {
 		
-		MongoTable table = new MongoTable(dbHost, dbPort, dbName, colName);
+		MongoTable table = new MongoTable(dbHost, dbPort, dbName, dbUser, dbPasswd, colName);
 		long total = table.count();
 		int _numSplits = (numSplits < 1 || total <= numSplits) ? 1 : numSplits;
 		final long splitSize = total / _numSplits;

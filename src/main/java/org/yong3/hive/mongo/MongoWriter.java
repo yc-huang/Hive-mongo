@@ -20,8 +20,8 @@ import com.mongodb.BasicDBObject;
 public class MongoWriter implements RecordWriter {
 	MongoTable table;
 
-	public MongoWriter(String host, String port, String dbName, String colName) {
-		this.table = new MongoTable(host, port, dbName, colName);
+	public MongoWriter(String host, String port, String dbName, String dbUser, String dbPasswd, String colName) {
+		this.table = new MongoTable(host, port, dbName, dbUser, dbPasswd, colName);
 	}
 
 	@Override

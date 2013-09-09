@@ -26,7 +26,7 @@ HiveOutputFormat<NullWritable, Row>{
 		      boolean isCompressed,
 		      Properties tableProperties,
 		      Progressable progress) throws IOException {
-		return new MongoWriter(getDBHost(conf), getDBPort(conf), getDBName(conf), getCollectionName(conf));
+		return new MongoWriter(getDBHost(conf), getDBPort(conf), getDBName(conf), getDBUser(conf), getDBPassword(conf), getCollectionName(conf));
 		
 	}
 

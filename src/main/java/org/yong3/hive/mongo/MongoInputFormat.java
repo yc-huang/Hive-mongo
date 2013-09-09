@@ -4,6 +4,8 @@ import static org.yong3.hive.mongo.ConfigurationUtil.getCollectionName;
 import static org.yong3.hive.mongo.ConfigurationUtil.getDBHost;
 import static org.yong3.hive.mongo.ConfigurationUtil.getDBName;
 import static org.yong3.hive.mongo.ConfigurationUtil.getDBPort;
+import static org.yong3.hive.mongo.ConfigurationUtil.getDBUser;
+import static org.yong3.hive.mongo.ConfigurationUtil.getDBPassword;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,7 +76,7 @@ public class MongoInputFormat extends
 	      }		
 		
 		return new MongoReader(getDBHost(conf), getDBPort(conf),
-				getDBName(conf), getCollectionName(conf),
+				getDBName(conf), getDBUser(conf), getDBPassword(conf), getCollectionName(conf),
 				(MongoSplit) split, cols);
 	}
 
@@ -82,7 +84,7 @@ public class MongoInputFormat extends
 	public InputSplit[] getSplits(JobConf conf, int numSplits)
 			throws IOException {
 		return MongoSplit.getSplits(conf, getDBHost(conf), getDBPort(conf),
-				getDBName(conf), getCollectionName(conf), numSplits);
+				getDBName(conf), getDBUser(conf), getDBPassword(conf), getCollectionName(conf), numSplits);
 	}
 
 	

@@ -20,9 +20,9 @@ public class MongoReader implements RecordReader<LongWritable, MapWritable> {
 	long pos;
 	String[] readColumns;
 
-	public MongoReader(String dbHost, String dbPort, String dbName,
+	public MongoReader(String dbHost, String dbPort, String dbName, String dbUser, String dbPasswd, 
 			String colName, MongoSplit split, String[] readColumns) {
-		this.table = new MongoTable(dbHost, dbPort, dbName, colName);
+		this.table = new MongoTable(dbHost, dbPort, dbName, dbUser, dbPasswd, colName);
 		this.split = split;
 		this.readColumns = readColumns;
 

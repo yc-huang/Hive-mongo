@@ -14,10 +14,15 @@ public class MongoTable {
 	private DB db;
 	private DBCollection collection;
 
-	public MongoTable(String host, String port, String dbName,
+	public MongoTable(String host, String port, String dbName, String dbUser, String dbPasswd,
 			String collectionName) {
 		try {
 			this.db = new Mongo(host, Integer.valueOf(port)).getDB(dbName);
+			boolean auth = false;
+			if(dbUser != null && !"".equals(dbUser.trim())) auth = db.authenticate(dbUser, dbPasswd.toCharArray());
+			if(!auth){
+        throw new RuntimeException("database auth failed with user:" + dbUser + " and passwd:" + dbPasswd);
+			}
 			this.collection = db.getCollection(collectionName);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

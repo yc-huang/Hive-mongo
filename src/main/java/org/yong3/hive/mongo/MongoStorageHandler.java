@@ -4,6 +4,8 @@ import static org.yong3.hive.mongo.ConfigurationUtil.COLLECTION_NAME;
 import static org.yong3.hive.mongo.ConfigurationUtil.DB_HOST;
 import static org.yong3.hive.mongo.ConfigurationUtil.DB_NAME;
 import static org.yong3.hive.mongo.ConfigurationUtil.DB_PORT;
+import static org.yong3.hive.mongo.ConfigurationUtil.DB_USER;
+import static org.yong3.hive.mongo.ConfigurationUtil.DB_PASSWD;
 import static org.yong3.hive.mongo.ConfigurationUtil.copyMongoProperties;
 
 import java.util.Map;
@@ -80,8 +82,10 @@ public class MongoStorageHandler implements HiveStorageHandler {
 				String dbHost = tbl.getParameters().get(DB_HOST);
 				String dbPort = tbl.getParameters().get(DB_PORT);
 				String dbName = tbl.getParameters().get(DB_NAME);
+				String dbUser = tbl.getParameters().get(DB_USER);
+				String dbPasswd = tbl.getParameters().get(DB_PASSWD);
 				String dbCollection = tbl.getParameters().get(COLLECTION_NAME);
-				MongoTable table = new MongoTable(dbHost, dbPort, dbName,
+				MongoTable table = new MongoTable(dbHost, dbPort, dbName, dbUser, dbPasswd,
 						dbCollection);
 				table.drop();
 				table.close();
