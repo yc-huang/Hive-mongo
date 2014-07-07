@@ -21,6 +21,7 @@ import org.apache.hadoop.hive.ql.plan.TableDesc;
 import org.apache.hadoop.hive.serde2.SerDe;
 import org.apache.hadoop.mapred.InputFormat;
 import org.apache.hadoop.mapred.OutputFormat;
+import org.apache.hadoop.mapred.JobConf;
 
 public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
@@ -63,6 +64,9 @@ public class MongoStorageHandler implements HiveStorageHandler {
 	@Override
 	public void setConf(Configuration conf) {
 		this.mConf = conf;
+	}
+
+	public void configureJobConf(TableDesc tableDesc, JobConf jobConf){
 	}
 
 	private class DummyMetaHook implements HiveMetaHook {
