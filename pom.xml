@@ -89,21 +89,33 @@
   		<dependency>
   			<groupId>org.apache.hive</groupId>
   			<artifactId>hive-serde</artifactId>
-  			<version>0.7.1-SNAPSHOT</version>
+  			<version>0.14.0</version>
   			<type>jar</type>
   			<scope>provided</scope>
   		</dependency>
   		  		<dependency>
   			<groupId>org.apache.hive</groupId>
   			<artifactId>hive-exec</artifactId>
-  			<version>0.7.1-SNAPSHOT</version>
+  			<version>0.14.0</version>
   			<type>jar</type>
   			<scope>provided</scope>
+		
+		<exclusions>  
+            <exclusion>  
+                <artifactId>calcite-core</artifactId>  
+                <groupId>org.apache.calcite</groupId>  
+            </exclusion> 
+<exclusion>  
+                <artifactId>calcite-avatica</artifactId>  
+                <groupId>org.apache.calcite</groupId>  
+            </exclusion>  
+        </exclusions>
+
   		</dependency>
   		  		<dependency>
   			<groupId>org.apache.hive</groupId>
   			<artifactId>hive-metastore</artifactId>
-  			<version>0.7.1-SNAPSHOT</version>
+  			<version>0.14.0</version>
   			<type>jar</type>
   			<scope>provided</scope>
   		</dependency>
