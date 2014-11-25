@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.serde.Constants;
 import org.apache.hadoop.hive.serde2.SerDe;
+import org.apache.hadoop.hive.serde2.SerDeStats;
 import org.apache.hadoop.hive.serde2.SerDeException;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
@@ -201,11 +202,10 @@ public class MongoSerDe implements SerDe {
 		return cachedWritable;
 	}
 
-	/*
-	@Override
+	
 	public SerDeStats getSerDeStats() {
 		// TODO Auto-generated method stub
 		return null;
-	}*/
+	}
 
 }

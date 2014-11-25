@@ -23,6 +23,9 @@ import org.apache.hadoop.mapred.InputFormat;
 import org.apache.hadoop.mapred.OutputFormat;
 import org.apache.hadoop.mapred.JobConf;
 
+import org.apache.hadoop.hive.ql.security.authorization.HiveAuthorizationProvider;
+import org.apache.hadoop.hive.ql.metadata.HiveException;
+
 public class MongoStorageHandler implements HiveStorageHandler {
 	private Configuration mConf = null;
 
@@ -67,6 +70,18 @@ public class MongoStorageHandler implements HiveStorageHandler {
 	}
 
 	public void configureJobConf(TableDesc tableDesc, JobConf jobConf){
+	}
+
+	public void configureInputJobProperties(TableDesc desc, Map<String,String> props){
+	}
+
+	public void configureOutputJobProperties(TableDesc desc, Map<String,String> props){
+
+	}
+
+	public HiveAuthorizationProvider getAuthorizationProvider()
+    throws HiveException{
+		return null;
 	}
 
 	private class DummyMetaHook implements HiveMetaHook {
